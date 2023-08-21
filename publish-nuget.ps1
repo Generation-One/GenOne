@@ -1,5 +1,4 @@
 $artifacts = "./nupkgs"
-$NugetApiKey = ""
 $publishConfig = "./nuget/publish-config.json"
 
 $json = Get-Content $publishConfig -Raw | ConvertFrom-Json
@@ -15,5 +14,5 @@ if($count -ne $actualCount)
 }
 
 foreach($name in $filenames){
-    dotnet nuget push ./nupkgs/$name --source https://api.nuget.org/v3/index.json --api-key $NugetApiKey
+    dotnet nuget push ./nupkgs/$name --source https://api.nuget.org/v3/index.json --api-key $Env:NugetApiKey
 }
