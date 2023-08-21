@@ -1,8 +1,8 @@
 $output = "./nupkgs"
 
 $version = "0.0.1"
-if ($null -ne $env:NugetVersion){
-    $version = $env:NugetVersion
+if ($null -ne $Env:NugetVersion){
+    $version = $Env:NugetVersion
 }
 
 $publishConfig = "./nuget/publish-config.json"
