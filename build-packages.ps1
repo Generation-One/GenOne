@@ -30,5 +30,5 @@ if($LASTEXITCODE -ne 0)
 }
 
 foreach ( $path in $json.packagesPaths ){
-    $r = dotnet pack $path --output $output --no-build --configuration Release -p:PackageVersion=$version
+    dotnet pack $path --output $output --no-build --configuration Release -p:PackageVersion=$version
 }
