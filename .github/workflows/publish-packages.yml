@@ -20,7 +20,7 @@ jobs:
         dotnet-quality: 'preview'
 
     - name: build packages
+      shell: pwsh
       env:
         NugetVersion: ${{ github.event.release.tag_name }}
-      run: |
-        "$Env:GITHUB_WORKSPACE\build-packages.ps1" "$Env:NugetVersion"
+      run: ./build-packages.ps1
