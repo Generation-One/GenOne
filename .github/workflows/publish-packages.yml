@@ -1,0 +1,26 @@
+name: Publish Nuget package
+
+on:
+  release:
+    types: [published]
+    
+jobs:
+  publish-packages:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: install dotnet
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+        dotnet-quality: 'preview'
+
+    - name: build packages
+      env:
+        NugetVersion: ${{ github.event.release.tag_name }}
+      run: |
+        "./Connect-Drive.ps1" "$Env:NugetVersion"
