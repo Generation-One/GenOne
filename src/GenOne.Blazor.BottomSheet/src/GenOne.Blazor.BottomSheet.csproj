@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <Import Project="../../Directory.Build.props" />
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -28,14 +29,7 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Authors>Dmitry Kaznacheev</Authors>
-		<PackageProjectUrl>https://github.com/Generation-One/GenOne.Blazor.BottomSheet</PackageProjectUrl>
-		<PackageIcon>icon.png</PackageIcon>
-		<PackageLicenseUrl></PackageLicenseUrl>
-		<Copyright>Dmitry Kaznacheev</Copyright>
-		<RepositoryUrl>https://github.com/Generation-One/GenOne.Blazor.BottomSheet</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Generation-One/GenOne/tree/master/src/GenOne.Blazor.BottomSheet</PackageProjectUrl>
 		<PackageTags>blazor bottom sheet popup</PackageTags>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 </Project>

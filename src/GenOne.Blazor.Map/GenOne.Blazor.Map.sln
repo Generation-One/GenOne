@@ -1,10 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenOne.Blazor.Map", "src\GenOne.Blazor.Map.csproj", "{B4FF1326-08F3-40AA-BDBA-D151566051D2}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34004.107
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenOne.Blazor.Map", "src\GenOne.Blazor.Map.csproj", "{B4FF1326-08F3-40AA-BDBA-D151566051D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenOne.Geolocation", "..\GenOne.GpsLocation\src\GenOne.Geolocation.csproj", "{D3D1CB30-81FB-4ABE-8AAE-ED6EC6171D53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenOne.JsInterop", "..\GenOne.JsInterop\src\GenOne.JsInterop.csproj", "{31B6B6B3-E3CA-4F61-AB60-924B395008DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenOne.JsInterop", "..\GenOne.JsInterop\src\GenOne.JsInterop.csproj", "{31B6B6B3-E3CA-4F61-AB60-924B395008DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenOne.Geolocation", "..\GenOne.Geolocation\src\GenOne.Geolocation.csproj", "{DBF93B71-C090-41BF-A772-D81240580805}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,13 +19,16 @@ Global
 		{B4FF1326-08F3-40AA-BDBA-D151566051D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4FF1326-08F3-40AA-BDBA-D151566051D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4FF1326-08F3-40AA-BDBA-D151566051D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D3D1CB30-81FB-4ABE-8AAE-ED6EC6171D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D3D1CB30-81FB-4ABE-8AAE-ED6EC6171D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D3D1CB30-81FB-4ABE-8AAE-ED6EC6171D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D3D1CB30-81FB-4ABE-8AAE-ED6EC6171D53}.Release|Any CPU.Build.0 = Release|Any CPU
 		{31B6B6B3-E3CA-4F61-AB60-924B395008DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{31B6B6B3-E3CA-4F61-AB60-924B395008DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31B6B6B3-E3CA-4F61-AB60-924B395008DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31B6B6B3-E3CA-4F61-AB60-924B395008DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBF93B71-C090-41BF-A772-D81240580805}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBF93B71-C090-41BF-A772-D81240580805}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBF93B71-C090-41BF-A772-D81240580805}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBF93B71-C090-41BF-A772-D81240580805}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

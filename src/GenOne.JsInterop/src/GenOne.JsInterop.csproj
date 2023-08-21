@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="../../Directory.Build.props" />
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,15 +11,8 @@
   </ItemGroup>
 
 	<PropertyGroup>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Authors>Dmitry Kaznacheev</Authors>
-		<PackageProjectUrl>https://github.com/Generation-One/GenOne.JsInterop</PackageProjectUrl>
-		<PackageIcon>icon.png</PackageIcon>
-		<PackageLicenseUrl></PackageLicenseUrl>
-		<Copyright>Dmitry Kaznacheev</Copyright>
-		<RepositoryUrl>https://github.com/Generation-One/GenOne.JsInterop</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Generation-One/GenOne/tree/master/src/GenOne.JsInterop</PackageProjectUrl>
 		<PackageTags>js interop csharp</PackageTags>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 
 </Project>

@@ -1,0 +1,19 @@
+<Project>
+    <PropertyGroup Label="Macros">
+        <PropertySheetPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))</PropertySheetPath>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <None Include="$(PropertySheetPath)..\LICENSE" Pack="true" PackagePath="" />
+        <None Include="$(PropertySheetPath)..\nuget\icon.png" Pack="true" PackagePath="" />
+    </ItemGroup>
+    
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <Authors>Dmitry Kaznacheev</Authors>
+        <PackageIcon>icon.png</PackageIcon>
+        <Copyright>Dmitry Kaznacheev</Copyright>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<RepositoryUrl>https://github.com/Generation-One/GenOne</RepositoryUrl>
+    </PropertyGroup>
+</Project>

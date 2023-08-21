@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../Directory.Build.props" />
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+		<PackageProjectUrl>https://github.com/Generation-One/GenOne/tree/master/src/GenOne.GpsLocation</PackageProjectUrl>
+		<PackageTags>geo gps location</PackageTags>
+	</PropertyGroup>
+</Project>

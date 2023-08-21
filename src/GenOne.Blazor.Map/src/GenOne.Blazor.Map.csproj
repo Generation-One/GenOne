@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <Import Project="../../Directory.Build.props" />
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -19,8 +20,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GenOne.GpsLocation\src\GenOne.Geolocation.csproj" />
+    <ProjectReference Include="..\..\GenOne.Geolocation\src\GenOne.Geolocation.csproj" />
     <ProjectReference Include="..\..\GenOne.JsInterop\src\GenOne.JsInterop.csproj" />
   </ItemGroup>
+
+  <PropertyGroup>
+		<PackageProjectUrl>https://github.com/Generation-One/GenOne/tree/master/src/GenOne.Blazor.Map</PackageProjectUrl>
+		<PackageTags>blazor map osm open street map</PackageTags>
+	</PropertyGroup>
 
 </Project>
