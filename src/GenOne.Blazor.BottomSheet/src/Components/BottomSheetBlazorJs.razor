@@ -1,0 +1,73 @@
+@using GenOne.Blazor.BottomSheet.Exceptions;
+@using GenOne.Blazor.BottomSheet.JsInterop;
+@inject BottomSheetJsInterop Interop
+
+
+<div class="sheet" role="dialog" aria-hidden data-bs>
+    <div class="overlay" data-bs-overlay></div>
+
+    <div class="contents" data-bs-contents style="height: 0vh; width: 100%;">
+        <main class="bottom-sheet-body @Class">
+            @ChildContent
+        </main>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback OnClosed { get; set; }
+
+    [Parameter]
+    public bool Passive { get; set; }
+
+    [Parameter]
+    public int[] Stops
+    {
+        get => _stops;
+        set => _stops = value.Order().ToArray();
+    }
+
+    private int[] _stops = { 95 };
+
+    [Parameter]
+    public int Sensitivity { get; set; } = 15;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback WhenInitialized { get; set; }
+
+    private IJSObjectReference? _bottomSheetReference;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _bottomSheetReference = await Interop.InitializeBottomSheet(Stops, Passive, Sensitivity, OnClosed.InvokeAsync);
+            await WhenInitialized.InvokeAsync();
+        }
+    }
+
+    public void TriggerRender()
+    {
+        StateHasChanged();
+    }
+
+    public async Task Open()
+    {
+        BottomSheetNotInitializedException.ThrowIf(_bottomSheetReference is null);
+
+        await Interop.OpenBottomSheet(_bottomSheetReference);
+    }
+
+    public async Task Close()
+    {
+        BottomSheetNotInitializedException.ThrowIf(_bottomSheetReference is null);
+
+        await Interop.CloseBottomSheet(_bottomSheetReference);
+    }
+}

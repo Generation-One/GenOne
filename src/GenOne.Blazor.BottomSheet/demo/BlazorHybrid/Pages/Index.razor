@@ -1,0 +1,29 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+Times closed: @_closedCount;
+
+<button @onclick="OpenSheet">Open Sheet</button>
+
+<BottomSheetBlazorJs @ref="_sheet" Sensitivity="5" Stops="new[] { 95 }" OnClosed="() => _closedCount++">
+    <FetchData></FetchData>
+</BottomSheetBlazorJs>
+
+
+@code
+{
+    private BottomSheetBlazorJs? _sheet;
+
+    private int _closedCount;
+
+    public async Task OpenSheet()
+    {
+        if (_sheet is null)
+            throw new ArgumentNullException();
+
+        await _sheet.Open();
+    }
+}
