@@ -23,4 +23,4 @@ jobs:
       env:
         NugetVersion: ${{ github.event.release.tag_name }}
       run: |
-        "./Connect-Drive.ps1" "$Env:NugetVersion"
+        "./build-packages.ps1" "$Env:NugetVersion"
