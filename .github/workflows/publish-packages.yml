@@ -23,4 +23,4 @@ jobs:
       env:
         NugetVersion: ${{ github.event.release.tag_name }}
       run: |
-        "./build-packages.ps1" "$Env:NugetVersion"
+        "$Env:GITHUB_WORKSPACE\build-packages.ps1" "$Env:NugetVersion"
