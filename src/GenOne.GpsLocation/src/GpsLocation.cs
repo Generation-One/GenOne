@@ -4,14 +4,14 @@ using System.Runtime.InteropServices;
 namespace GenOne.Geolocation
 {
     [StructLayout(LayoutKind.Auto)]
-    public readonly record struct GpsLocation
+    public record GpsLocation
     {
         public const double MinLatitude = -90;
         public const double MaxLatitude = 90;
         public const double MinLongitude = -180;
         public const double MaxLongitude = 180;
 
-        public static GpsLocation Empty { get; } = new();
+        public static GpsLocation Empty { get; } = new(0, 0);
 
         public double Longitude { get; } = double.MinValue;
 
@@ -35,11 +35,18 @@ namespace GenOne.Geolocation
             return GpsLocationParser.TryParse(locationString, ',', out gpsLocation);
         }
 
-        public bool Equals(GpsLocation other) 
-            => Longitude.Equals(other.Longitude) && Latitude.Equals(other.Latitude);
+        public virtual bool Equals(GpsLocation? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
 
-        public override int GetHashCode() 
-            => HashCode.Combine(Longitude, Latitude);
+            return Longitude.Equals(other.Longitude)
+                && Latitude.Equals(other.Latitude);
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Longitude, Latitude);
+        }
 
         public override string ToString() => $"GPS:{Math.Round(Longitude, 3)},{Math.Round(Latitude, 3)}";
     }

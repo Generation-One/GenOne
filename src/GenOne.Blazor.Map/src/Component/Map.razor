@@ -1,0 +1,133 @@
+﻿@using Microsoft.Extensions.Options
+@using GenOne.Geolocation
+@using GenOne.DPBlazorMapLibrary.Models.Layers.Markers
+@using GenOne.DPBlazorMapLibrary.Models.Layers.RasterLayers.TileLayers
+@using GenOne.DPBlazorMapLibrary.Models.Events
+@using GenOne.DPBlazorMapLibrary.Factorys
+@using GenOne.DPBlazorMapLibrary.Factorys.Interfaces
+
+@inject IOptions<GenOneMapOptions> Options
+@inject LayerFactory Factory
+@inject IIconFactory IconFactory
+@inject IUserLocationProvider? UserLocationProvider
+
+<GenOne.DPBlazorMapLibrary.Components.Map.Map @ref="_map" MapOptions="@_mapOptions" CssClass="@Class" AfterRender="@AfterMapRender" />
+
+@code {
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public int Zoom { get; set; } = 18;
+
+    private GpsData? ConsumerLocation
+    {
+        get => _consumerLocation;
+        set
+        {
+            _consumerLocation = value;
+            _updates.Writer.TryWrite(FieldUpdated.ConsumerLocation);
+        }
+    }
+
+    private GpsData? _consumerLocation;
+
+    [Parameter]
+    public GpsLocation? InitMarkerPosition { get; set; }
+
+    [Parameter]
+    public GpsLocation? MarkerPosition
+    {
+        get => _markerPosition;
+        set
+        {
+            _markerPosition = value;
+            _updates.Writer.TryWrite(FieldUpdated.MarkerLocation);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<GpsLocation?> MarkerPositionChanged { get; set; }
+
+    private GpsLocation? _markerPosition;
+
+    [Parameter]
+    public GpsLocation? InitViewPosition { get; set; }
+
+    [Parameter]
+    public GpsLocation? ViewPosition
+    {
+        get => _viewPosition;
+        set
+        {
+            _viewPosition = value;
+            _updates.Writer.TryWrite(FieldUpdated.ViewPosition);
+        }
+    }
+
+    private GpsLocation? _viewPosition;
+
+    private DPBMap? _map;
+
+    private DPBMapOptions? _mapOptions;
+
+    private Marker? _marker;
+    private Marker? _userMarker;
+
+    protected override void OnInitialized()
+    {
+        //var position = ViewPosition ?? MarkerPosition ?? GpsLocation.Empty;
+        _mapOptions = new DPBMapOptions
+            {
+                //Center = position.LatLng(),
+                Zoom = Zoom,
+                ZoomControl = false
+            };
+
+        if (Disabled)
+        {
+            _mapOptions.Dragging = false;
+            _mapOptions.BoxZoom = false;
+            _mapOptions.TrackResize = false;
+        }
+
+        SubscribeToConsumerLocationUpdates();
+
+        base.OnInitialized();
+    }
+
+    private async Task AfterMapRender()
+    {
+        MapInitializationException.ThrowIf(_map is null);
+        
+        var tileLayerOptions = new TileLayerOptions
+            {
+                MaxZoom = 20,
+                MaxNativeZoom = 18,
+                Attribution = Options.Value.Attribution
+            };
+
+        _ = await Factory.CreateTileLayerAndAddToMap(Options.Value.UrlTileTemplate, _map, tileLayerOptions);
+
+        MarkerPosition = InitMarkerPosition ?? MarkerPosition;
+
+        var viewPosition = InitViewPosition ?? InitMarkerPosition ?? ViewPosition ?? MarkerPosition ?? ConsumerLocation?.Location;
+        await UpdateViewLocation(viewPosition, false);
+
+        StartReadUpdates();
+
+        await _map.OnClick(OnClickInner);
+    }
+
+    private async Task OnClickInner(MouseEvent mouseEvent)
+    {
+        if (Disabled) return;
+
+        var position = mouseEvent.LatLng.GpsLocation();
+        MarkerPosition = position;
+        await MarkerPositionChanged.InvokeAsync(position);
+    }
+}
