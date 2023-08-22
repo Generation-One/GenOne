@@ -17,5 +17,18 @@
             LocationMin = locationMin;
             LocationMax = locationMax;
         }
+
+        public virtual bool Equals(GeoBounds? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return LocationMin.Equals(other.LocationMin) && LocationMax.Equals(other.LocationMax);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(LocationMin, LocationMax);
+        }
     }
 }

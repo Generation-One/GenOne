@@ -1,11 +1,11 @@
 $output = "./nupkgs"
+$testsSln = "./src/tests.sln"
+$publishConfig = "./nuget/publish-config.json"
+$version = Get-Date -Format "MM.dd.yy.FFFFFF"
 
-$version = "0.0.1"
 if ($null -ne $Env:NugetVersion){
     $version = $Env:NugetVersion
 }
-
-$publishConfig = "./nuget/publish-config.json"
 
 $json = Get-Content $publishConfig -Raw | ConvertFrom-Json
 
@@ -14,7 +14,6 @@ Write-Host "--------------------------------------------------------"
 Write-Host ($json.packagesPaths -join "`n")
 
 dotnet restore
-
 dotnet build --no-restore --configuration Release
 
 if($LASTEXITCODE -ne 0)
@@ -22,7 +21,7 @@ if($LASTEXITCODE -ne 0)
     throw "dotnet build failed"
 }
 
-dotnet test --no-build --verbosity normal --configuration Release
+dotnet test $testsSln --configuration Release
 
 if($LASTEXITCODE -ne 0)
 {

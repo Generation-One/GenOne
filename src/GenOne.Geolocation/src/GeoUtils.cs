@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace GenOne.Geolocation
+﻿namespace GenOne.Geolocation
 {
     public static class GeoUtils
     {

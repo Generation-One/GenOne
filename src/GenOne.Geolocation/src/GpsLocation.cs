@@ -1,9 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
 
 namespace GenOne.Geolocation
 {
-    [StructLayout(LayoutKind.Auto)]
     public record GpsLocation
     {
         public const double MinLatitude = -90;
@@ -25,14 +23,26 @@ namespace GenOne.Geolocation
             Longitude = longitude;
         }
 
+        [Obsolete("Use Parse")]
         public static GpsLocation ParseComma(string locationString)
         {
             return GpsLocationParser.Parse(locationString, ',');
         }
 
-        public static bool TryParseComma(string locationString, out GpsLocation gpsLocation)
+        [Obsolete("Use TryParse")]
+        public static bool TryParseComma(string locationString, [NotNullWhen(true)] out GpsLocation? gpsLocation)
         {
             return GpsLocationParser.TryParse(locationString, ',', out gpsLocation);
+        }
+
+        public static GpsLocation Parse(string locationString, char separator)
+        {
+            return GpsLocationParser.Parse(locationString, separator);
+        }
+
+        public static bool TryParse(string locationString, char separator, [NotNullWhen(true)] out GpsLocation? gpsLocation)
+        {
+            return GpsLocationParser.TryParse(locationString, separator, out gpsLocation);
         }
 
         public virtual bool Equals(GpsLocation? other)

@@ -66,6 +66,7 @@ public class GpsLocationTests
         var isSuccess = GpsLocation.TryParseComma(str, out var data);
         
         Assert.True(isSuccess);
+        Assert.NotNull(data);
         Assert.Equal(latitude, data.Latitude);
         Assert.Equal(longitude, data.Longitude);
     }

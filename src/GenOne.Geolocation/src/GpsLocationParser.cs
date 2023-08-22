@@ -10,10 +10,16 @@ namespace GenOne.Geolocation
         public static GpsLocation Parse(string locationString, char separator)
         {
             var i = locationString.Split(separator);
+            
+            if (i.Length != 2)
+            {
+                throw new FormatException($"Wrong location string format: {locationString}");
+            }
+
             return new GpsLocation(double.Parse(i[0], CultureInfo.InvariantCulture), double.Parse(i[1], CultureInfo.InvariantCulture));
         }
         
-        public static bool TryParse(string locationString, char separator, out GpsLocation gpsLocation)
+        public static bool TryParse(string locationString, char separator, [NotNullWhen(true)] out GpsLocation? gpsLocation)
         {
             var i = locationString.Split(separator);
             if (i.Length != 2)
