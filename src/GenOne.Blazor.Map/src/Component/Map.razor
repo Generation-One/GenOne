@@ -9,7 +9,7 @@
 @inject IOptions<GenOneMapOptions> Options
 @inject LayerFactory Factory
 @inject IIconFactory IconFactory
-@inject IUserLocationProvider? UserLocationProvider
+@inject IServiceProvider Services
 
 <GenOne.DPBlazorMapLibrary.Components.Map.Map @ref="_map" MapOptions="@_mapOptions" CssClass="@Class" AfterRender="@AfterMapRender" />
 

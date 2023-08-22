@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenOne.JsInterop", "..\GenO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenOne.Geolocation", "..\GenOne.Geolocation\src\GenOne.Geolocation.csproj", "{DBF93B71-C090-41BF-A772-D81240580805}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{ADFF4485-0C60-446A-AEA8-2FEC241C950A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorHybrid", "demo\BlazorHybrid\BlazorHybrid.csproj", "{BFCDD447-5840-477A-8023-119370B9313E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +31,20 @@ Global
 		{DBF93B71-C090-41BF-A772-D81240580805}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBF93B71-C090-41BF-A772-D81240580805}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBF93B71-C090-41BF-A772-D81240580805}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFCDD447-5840-477A-8023-119370B9313E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFCDD447-5840-477A-8023-119370B9313E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFCDD447-5840-477A-8023-119370B9313E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BFCDD447-5840-477A-8023-119370B9313E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFCDD447-5840-477A-8023-119370B9313E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFCDD447-5840-477A-8023-119370B9313E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BFCDD447-5840-477A-8023-119370B9313E} = {ADFF4485-0C60-446A-AEA8-2FEC241C950A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF20E592-57F3-4A1D-9390-F4957DC6D82E}
 	EndGlobalSection
 EndGlobal

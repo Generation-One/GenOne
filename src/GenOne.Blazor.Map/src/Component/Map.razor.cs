@@ -17,7 +17,10 @@ namespace GenOne.Blazor.Map.Component
         }
 
         private void SubscribeToConsumerLocationUpdates()
-            => UserLocationProvider?.Subscribe(x => ConsumerLocation = x);
+        {
+            var locationProvider = (IUserLocationProvider?)Services.GetService(typeof(IUserLocationProvider));
+            locationProvider?.Subscribe(x => ConsumerLocation = x);
+        }
 
         private void StartReadUpdates()
         {
@@ -31,7 +34,7 @@ namespace GenOne.Blazor.Map.Component
                             await UpdateViewLocation();
                             break;
                         case FieldUpdated.ConsumerLocation:
-                            _marker = await Factory.AddOrUpdateMarker(_userMarker, _map, _consumerLocation?.Location.LatLng(), IconFactory.PrepareUserMarkerOptions);
+                            _userMarker = await Factory.AddOrUpdateMarker(_userMarker, _map, _consumerLocation?.Location.LatLng(), IconFactory.PrepareUserMarkerOptions);
                             break;
                         case FieldUpdated.MarkerLocation:
                             _marker = await Factory.AddOrUpdateMarker(_marker, _map, _markerPosition.LatLng(), IconFactory.PrepareMarkerOptions);

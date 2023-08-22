@@ -1,4 +1,3 @@
-﻿
 using GenOne.DPBlazorMapLibrary.Factorys.Interfaces;
 using GenOne.DPBlazorMapLibrary.Models.Basics;
 using GenOne.DPBlazorMapLibrary.Models.Basics.Icons;
@@ -32,7 +31,7 @@ namespace GenOne.Blazor.Map
             DivIconOptions iconOptions = new()
             {
                 ClassName = "leaflet-control-user-location",
-                Html = UserPinRaw.Html,
+                Html = PinsRaw.UserPinHtml,
                 IconSize = new Point(24, 24),
                 IconAnchor = new Point(12, 12)
             };
