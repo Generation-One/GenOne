@@ -13,6 +13,9 @@ public record GeoBounds
 
     public GeoBounds(GpsLocation locationMin, GpsLocation locationMax)
     {
+        ArgumentNullException.ThrowIfNull(locationMin);
+        ArgumentNullException.ThrowIfNull(locationMax);
+
         LocationMin = locationMin;
         LocationMax = locationMax;
     }

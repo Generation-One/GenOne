@@ -31,6 +31,9 @@ public static class GeoUtils
 
     public static double GetDistanceInMeters(GpsLocation location, GpsLocation otherLocation)
     {
+        ArgumentNullException.ThrowIfNull(location);
+        ArgumentNullException.ThrowIfNull(otherLocation);
+
         return GetDistanceInMeters(location.Latitude, location.Longitude, otherLocation.Latitude, otherLocation.Longitude);
     }
 
@@ -67,6 +70,9 @@ public static class GeoUtils
     /// <returns></returns>
     public static bool IsProximity(this GpsLocation gpsLocation, GpsLocation secondLocation, int rangeInMeters)
     {
+        ArgumentNullException.ThrowIfNull(gpsLocation);
+        ArgumentNullException.ThrowIfNull(secondLocation);
+
         var distanceMeters = GetDistanceInMeters(gpsLocation, secondLocation);
         return distanceMeters <= rangeInMeters;
     }

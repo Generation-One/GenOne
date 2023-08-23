@@ -3,6 +3,7 @@
 public readonly struct Distance : IComparable<Distance>, IEquatable<Distance>
 {
     private const double MetersPerKilometer = 1000.0;
+
     public Distance(double meters)
     {
         Meters = meters;
@@ -28,6 +29,9 @@ public readonly struct Distance : IComparable<Distance>, IEquatable<Distance>
 
     public static Distance BetweenPositions(GpsLocation position1, GpsLocation position2)
     {
+        ArgumentNullException.ThrowIfNull(position1);
+        ArgumentNullException.ThrowIfNull(position2);
+
         var distanceInMeters = GeoUtils.GetDistanceInMeters(position1, position2);
         return FromMeters(distanceInMeters);
     }
