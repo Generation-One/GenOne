@@ -3,6 +3,7 @@
 		"./src/GenOne.Blazor.BottomSheet/src/GenOne.Blazor.BottomSheet.csproj",
 		"./src/GenOne.Blazor.Map/src/GenOne.Blazor.Map.csproj",
 		"./src/GenOne.Geolocation/src/GenOne.Geolocation.csproj",
-		"./src/GenOne.JsInterop/src/GenOne.JsInterop.csproj"
+		"./src/GenOne.JsInterop/src/GenOne.JsInterop.csproj",
+		"./src/GenOne.Blazor.QrScanner/src/GenOne.Blazor.QrScanner.csproj"
 	]
 }

@@ -1,0 +1,67 @@
+﻿@namespace GenOne.Blazor.QrScanner
+
+@implements IAsyncDisposable
+@inject QrScannerJsInterop QrScannerInterop
+
+<video @ref="_videoTagReference" class="@Class" style="transform: scaleX(0)"></video>
+
+@code {
+
+    [Parameter]
+    public EventCallback<string> OnResult { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback WhenInitialized { get; set; }
+
+    private IJSObjectReference? _qrScanner;
+
+    private ElementReference _videoTagReference;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _qrScanner = await QrScannerInterop.CreateQrScannerInstance(_videoTagReference, OnResult.InvokeAsync);
+            await WhenInitialized.InvokeAsync();
+        }
+    }
+
+    public async ValueTask Scan()
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        QrScannerNotInitializedException.ThrowIf(_qrScanner is null);
+
+        await QrScannerInterop.StartScanning(_qrScanner);
+    }
+
+    public async ValueTask Stop()
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        QrScannerNotInitializedException.ThrowIf(_qrScanner is null);
+
+        await QrScannerInterop.StartScanning(_qrScanner);
+    }
+
+    private bool _disposed;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (_qrScanner is null)
+        {
+            return;
+        }
+
+        await QrScannerInterop.DisposeQrScanner(_qrScanner);
+        await _qrScanner.DisposeAsync();
+        _qrScanner = null;
+        _disposed = true;
+    }
+}
