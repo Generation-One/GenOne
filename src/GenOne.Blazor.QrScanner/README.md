@@ -18,6 +18,10 @@ Add `BlazorWebViewInitialized` handler for `BlazorWebView`, and set web chrome c
 
 WebViewProxy:
 ```c#
+//using Android.OS;
+//using AWebView = Android.Webkit.WebView;
+//using Android.Webkit;
+
 public class WebViewProxy : WebChromeClient
 {
     private WebChromeClient webChromeClient;
