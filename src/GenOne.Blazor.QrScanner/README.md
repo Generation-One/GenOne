@@ -1,5 +1,7 @@
 # GenOne.Blazor.QrScanner
 
+GenOne.Blazor.QrScanner is qr scanner for blazor based on [nimiq/qr-scanner](https://github.com/nimiq/qr-scanner)
+
 ### Android workaround for MAUI
 On android you can face an issue when permission for camera denied for js code. Need to grant permissions for web view
 
