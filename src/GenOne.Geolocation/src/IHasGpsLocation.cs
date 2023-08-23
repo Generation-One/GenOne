@@ -1,7 +1,6 @@
-﻿namespace GenOne.Geolocation
+﻿namespace GenOne.Geolocation;
+
+public interface IHasGpsLocation
 {
-    public interface IHasGpsLocation
-    {
-        GpsLocation Location { get; }
-    }
+    GpsLocation Location { get; }
 }
