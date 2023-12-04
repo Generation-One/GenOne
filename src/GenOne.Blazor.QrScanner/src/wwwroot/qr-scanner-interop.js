@@ -8,7 +8,7 @@ export function createQrScanner(videoElem, overlay, successfulScanHandler) {
         {
             returnDetailedScanResult: true,
             highlightScanRegion: true,
-            overlay = overlay || undefined
+            overlay: overlay || undefined
         }
     );
 
