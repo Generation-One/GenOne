@@ -16,6 +16,9 @@
     [Parameter]
     public EventCallback WhenInitialized { get; set; }
 
+	[Parameter]
+	public ElementReference Overlay { get; set; }
+
     private IJSObjectReference? _qrScanner;
 
     private ElementReference _videoTagReference;
@@ -24,7 +27,7 @@
     {
         if (firstRender)
         {
-            _qrScanner = await QrScannerInterop.CreateQrScannerInstance(_videoTagReference, OnResult.InvokeAsync);
+            _qrScanner = await QrScannerInterop.CreateQrScannerInstance(_videoTagReference, Overlay, OnResult.InvokeAsync);
             await WhenInitialized.InvokeAsync();
         }
     }
