@@ -1,5 +1,4 @@
-﻿using GenOne.App.Blazor.QrScanner.JsInterop;
-using GenOne.JsInterop;
+﻿using GenOne.JsInterop;
 using Microsoft.JSInterop;
 
 namespace GenOne.Blazor.BottomSheet.JsInterop

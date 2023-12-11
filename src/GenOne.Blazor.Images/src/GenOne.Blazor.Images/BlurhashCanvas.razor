@@ -1,0 +1,53 @@
+﻿@using Blurhash.ImageSharp
+@using Microsoft.JSInterop
+@using SixLabors.ImageSharp
+
+@inject IJSRuntime JsRuntime
+
+<canvas @ref="_canvasRef" height="@OutputHeight" width="@OutputWidth" />
+
+@code {
+	private ElementReference? _canvasRef;
+
+	[Parameter]
+	public string? Blurhash { get; set; }
+
+	[Parameter]
+	public int OutputWidth { get; set; } = 32;
+
+	[Parameter]
+	public int OutputHeight { get; set; } = 32;
+
+	[Parameter]
+	public double Punch { get; set; } = 1;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender && Blurhash is not null)
+		{
+			await LoadBlurhashImage(Blurhash);
+		}
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		if (Blurhash is not null && _canvasRef.HasValue)
+		{
+			await LoadBlurhashImage(Blurhash);
+		}
+	}
+
+	private async ValueTask LoadBlurhashImage(string blurhash)
+	{
+		var decoded = Blurhasher.Decode(blurhash, OutputWidth, OutputHeight, Punch);
+
+		using var ms = new MemoryStream();
+		await decoded.SaveAsBmpAsync(ms);
+
+		ms.Seek(0, SeekOrigin.Begin);
+
+		var dotnetImageStream = new DotNetStreamReference(ms);
+		await JsRuntime.InvokeVoidAsync("draw", _canvasRef, dotnetImageStream, OutputWidth, OutputHeight);
+	}
+
+}

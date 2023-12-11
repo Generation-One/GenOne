@@ -1,0 +1,39 @@
+﻿@using Microsoft.JSInterop
+
+@inject IJSRuntime JsRuntime
+
+<img @ref="_imageRef" />
+
+@code {
+	private ElementReference? _imageRef;
+
+	[Parameter]
+	public Stream? Image { get; set; }
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			if (Image is not null)
+			{
+				await SetImageAsync(Image);
+			}
+		}
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		if (Image is not null && _imageRef.HasValue)
+		{
+			await SetImageAsync(Image);
+		}
+
+		await base.OnParametersSetAsync();
+	}
+
+	private async ValueTask SetImageAsync(Stream imageStream)
+	{
+		var dotnetImageStream = new DotNetStreamReference(imageStream);
+		await JsRuntime.InvokeVoidAsync("setImage", _imageRef, dotnetImageStream);
+	}
+}
