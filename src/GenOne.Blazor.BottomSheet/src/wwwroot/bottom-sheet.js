@@ -34,6 +34,7 @@
             window.innerHeight ||
             document.documentElement.clientHeight ||
             document.body.clientHeight;
+        this._contents = document.querySelector("[data-bs-contents]");
     }
 
     initializeSheet() {
@@ -211,10 +212,7 @@
         this._height = this._stops[0];
 
         const update = () => {
-            if (this._hidden) this._sheet.setAttribute("aria-hidden", "");
-            else this._sheet.removeAttribute("aria-hidden");
-
-            this._contents = document.querySelector("[data-bs-contents]");
+            this.updateAriaHidden();
             this._contents.style.height = this._height + "vh";
         };
 
@@ -236,11 +234,7 @@
             this._contents.removeAttribute("full-screen");
         }
 
-        if (this._hidden) {
-            this._sheet.setAttribute("aria-hidden", "");
-        } else {
-            this._sheet.removeAttribute("aria-hidden");
-        }
+        this.updateAriaHidden();
     }
 
     close = () => {
@@ -261,6 +255,14 @@
             this.updateStyle();
         });
     };
+
+    updateAriaHidden() {
+        if (this._hidden) {
+            this._sheet.setAttribute("aria-hidden", "");
+        } else {
+            this._sheet.removeAttribute("aria-hidden");
+        }
+    }
 
     getClosestStop(goal) {
         if (this._stops.length == 1) return this._stops[0];
