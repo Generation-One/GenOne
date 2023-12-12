@@ -1,0 +1,20 @@
+﻿@page "/"
+
+<QrScannerComponent @ref="_r" OnResult="CallbackR" WhenInitialized="Callback"></QrScannerComponent>
+
+@code {
+
+	QrScannerComponent _r;
+
+
+	private void CallbackR()
+	{
+		
+	}
+
+	private void Callback()
+	{
+		_r.Scan();
+	}
+
+}

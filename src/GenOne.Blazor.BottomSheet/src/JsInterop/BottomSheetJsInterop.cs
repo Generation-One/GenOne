@@ -1,17 +1,12 @@
-﻿using GenOne.App.Blazor.QrScanner.JsInterop;
-using GenOne.JsInterop;
+﻿using GenOne.JsInterop;
 using Microsoft.JSInterop;
 
 namespace GenOne.Blazor.BottomSheet.JsInterop
 {
-    internal class BottomSheetJsInterop : BaseJsInterop
+    internal class BottomSheetJsInterop(IJSRuntime jsRuntime) : BaseJsInterop(jsRuntime, BottomSheetInteropPath)
     {
         private const string BottomSheetInteropName = "bottom-sheet.js";
         private const string BottomSheetInteropPath = $"{InteropConfig.BaseJsFolder}{BottomSheetInteropName}";
-
-        public BottomSheetJsInterop(IJSRuntime jsRuntime) : base(jsRuntime, BottomSheetInteropPath)
-        {
-        }
 
         internal async ValueTask<IJSObjectReference> InitializeBottomSheet(int[] stops, bool passive, int sensitivity, Func<Task> onClosed)
         {

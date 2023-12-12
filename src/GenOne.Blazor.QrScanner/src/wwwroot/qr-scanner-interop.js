@@ -1,19 +1,31 @@
 ﻿import "./qr-scanner-worker.min.js"
 import QrScanner from "./qr-scanner.min.js"
 
-export function createQrScanner(videoElem, overlay, successfulScanHandler) {
+export function createQrScanner(videoElem, overlay, regionSize, successfulScanHandler) {
+
+
     var scanner = new QrScanner(
         videoElem,
         result => callback(successfulScanHandler, result),
         {
             returnDetailedScanResult: true,
             highlightScanRegion: true,
-            overlay: overlay || undefined
+            overlay: overlay || undefined,
+            calculateScanRegion: regionSize == null ? null : (video) => _setScanRegion(regionSize, video)
         }
     );
 
     scanner.setInversionMode('both');
     return scanner;
+}
+
+function _setScanRegion(size, video) {
+    return {
+        x: Math.round((video.videoWidth - size) / 2),
+        y: Math.round((video.videoHeight - size) / 2),
+        width: size,
+        height: size
+    };
 }
 
 function callback(successfulScanHandler, result) {

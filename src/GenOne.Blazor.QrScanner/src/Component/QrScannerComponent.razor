@@ -14,10 +14,13 @@
     public string Class { get; set; } = string.Empty;
 
     [Parameter]
+    public int? RegionSize { get; set; }
+
+    [Parameter]
     public EventCallback WhenInitialized { get; set; }
 
 	[Parameter]
-	public ElementReference Overlay { get; set; }
+	public ElementReference? Overlay { get; set; }
 
     private IJSObjectReference? _qrScanner;
 
@@ -27,25 +30,25 @@
     {
         if (firstRender)
         {
-            _qrScanner = await QrScannerInterop.CreateQrScannerInstance(_videoTagReference, Overlay, OnResult.InvokeAsync);
+            _qrScanner = await QrScannerInterop.CreateQrScannerInstance(_videoTagReference, Overlay, RegionSize, OnResult.InvokeAsync);
             await WhenInitialized.InvokeAsync();
         }
     }
 
-    public async ValueTask Scan()
+    public ValueTask Scan()
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
         QrScannerNotInitializedException.ThrowIf(_qrScanner is null);
 
-        await QrScannerInterop.StartScanning(_qrScanner);
+        return QrScannerInterop.StartScanning(_qrScanner);
     }
 
-    public async ValueTask Stop()
+    public ValueTask Stop()
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
         QrScannerNotInitializedException.ThrowIf(_qrScanner is null);
 
-        await QrScannerInterop.StartScanning(_qrScanner);
+        return QrScannerInterop.StartScanning(_qrScanner);
     }
 
     private bool _disposed;

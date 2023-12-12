@@ -5,7 +5,7 @@ namespace GenOne.Blazor.BottomSheet.Exceptions
 {
     public class BottomSheetNotInitializedException : Exception
     {
-        private static BottomSheetNotInitializedException Instance = new();
+        private static readonly BottomSheetNotInitializedException Instance = new();
 
         private BottomSheetNotInitializedException() : base("Bottom sheet is not initialized.")
         { }

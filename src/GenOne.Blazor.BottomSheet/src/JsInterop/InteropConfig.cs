@@ -1,4 +1,4 @@
-﻿namespace GenOne.App.Blazor.QrScanner.JsInterop
+﻿namespace GenOne.Blazor.BottomSheet.JsInterop
 {
     internal class InteropConfig
     {
