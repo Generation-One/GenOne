@@ -1,10 +1,10 @@
 ﻿@page "/counter"
 
-<h1>Counter</h1>
+<div data-bs-header><h1>Counter</h1></div>
 
 <p role="status">Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="OnClick">Click me</button>
 
 
 @code {
@@ -14,4 +14,7 @@
     {
         currentCount++;
     }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
 }
