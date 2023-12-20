@@ -58,20 +58,26 @@
         this._footer = document.querySelector("[data-bs-footer]");
         this._watch = document.querySelector("[data-bs-watch]");
 
-        this._header?.addEventListener("touchstart", this.onDragStartTouch);
-        this._header?.addEventListener("mousedown", this.onDragStartMouse);
+        if (this._header) {
+            this._header.addEventListener("touchstart", this.onDragStartTouch);
+            this._header.addEventListener("mousedown", this.onDragStartMouse);
+        }
 
-        this._content?.addEventListener(
-            "touchstart",
-            this.onDragStartTouchContent
-        );
-        this._content?.addEventListener(
-            "mousedown",
-            this.onDragStartMouseContent
-        );
+        if (this._content) {
+            this._content.addEventListener(
+                "touchstart",
+                this.onDragStartTouchContent
+            );
+            this._content.addEventListener(
+                "mousedown",
+                this.onDragStartMouseContent
+            );
+        }
 
-        this._footer?.addEventListener("touchstart", this.onDragStartTouch);
-        this._footer?.addEventListener("mousedown", this.onDragStartMouse);
+        if (this._footer) {
+            this._footer.addEventListener("touchstart", this.onDragStartTouch);
+            this._footer.addEventListener("mousedown", this.onDragStartMouse);
+        }
 
         if (this._watch) {
             observeWatch(this._watch, (x) => (this._scrollPosition = !x));
@@ -189,20 +195,27 @@
     };
 
     removeListeners = () => {
-        this._header?.removeEventListener("touchstart", this.onDragStartTouch);
-        this._header?.removeEventListener("mousedown", this.onDragStartMouse);
 
-        this._content?.removeEventListener(
-            "touchstart",
-            this.onDragStartTouchContent
-        );
-        this._content?.removeEventListener(
-            "mousedown",
-            this.onDragStartMouseContent
-        );
+        if (this._header) {
+            this._header.removeEventListener("touchstart", this.onDragStartTouch);
+            this._header.removeEventListener("mousedown", this.onDragStartMouse);
+        }
 
-        this._footer?.removeEventListener("touchstart", this.onDragStartTouch);
-        this._footer?.removeEventListener("mousedown", this.onDragStartMouse);
+        if (this._content) {
+            this._content.removeEventListener(
+                "touchstart",
+                this.onDragStartTouchContent
+            );
+            this._content.removeEventListener(
+                "mousedown",
+                this.onDragStartMouseContent
+            );
+        }
+
+        if (this._footer) {
+            this._footer.removeEventListener("touchstart", this.onDragStartTouch);
+            this._footer.removeEventListener("mousedown", this.onDragStartMouse);
+        }
     };
 
     open() {
