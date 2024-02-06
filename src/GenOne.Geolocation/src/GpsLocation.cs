@@ -2,7 +2,7 @@
 
 namespace GenOne.Geolocation;
 
-public record GpsLocation(double Latitude, double Longitude)
+public record GpsLocation
 {
     public const double MinLatitude = -90;
     public const double MaxLatitude = 90;
@@ -11,6 +11,18 @@ public record GpsLocation(double Latitude, double Longitude)
 
     public static GpsLocation Empty { get; } = new(0, 0);
 
+    public double Longitude { get; } = double.MinValue;
+
+    public double Latitude { get; } = double.MinValue;
+
+    public GpsLocation(double latitude, double longitude)
+    {
+        GpsLocationValidator.ThrowIfInvalid(latitude, longitude);
+
+        Latitude = latitude;
+        Longitude = longitude;
+    }
+
     [Obsolete("Use Parse")]
     public static GpsLocation ParseComma(string locationString)
     {
@@ -18,7 +30,7 @@ public record GpsLocation(double Latitude, double Longitude)
     }
 
     [Obsolete("Use TryParse")]
-    public static bool TryParseComma([NotNullWhen(true)] string? locationString, out GpsLocation gpsLocation)
+    public static bool TryParseComma(string locationString, [NotNullWhen(true)] out GpsLocation? gpsLocation)
     {
         return GpsLocationParser.TryParse(locationString, ',', out gpsLocation);
     }
@@ -28,7 +40,7 @@ public record GpsLocation(double Latitude, double Longitude)
         return GpsLocationParser.Parse(locationString, separator);
     }
 
-    public static bool TryParse([NotNullWhen(true)] string? locationString, char separator, out GpsLocation gpsLocation)
+    public static bool TryParse(string locationString, char separator, [NotNullWhen(true)] out GpsLocation? gpsLocation)
     {
         return GpsLocationParser.TryParse(locationString, separator, out gpsLocation);
     }
@@ -37,10 +49,14 @@ public record GpsLocation(double Latitude, double Longitude)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude);
+
+        return Longitude.Equals(other.Longitude)
+            && Latitude.Equals(other.Latitude);
     }
     public override int GetHashCode()
     {
-        return HashCode.Combine(Latitude, Longitude);
+        return HashCode.Combine(Longitude, Latitude);
     }
+
+    public override string ToString() => $"GPS:{Math.Round(Longitude, 3)},{Math.Round(Latitude, 3)}";
 }

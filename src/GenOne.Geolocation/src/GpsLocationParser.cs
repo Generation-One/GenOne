@@ -6,7 +6,7 @@ namespace GenOne.Geolocation;
 internal static class GpsLocationParser
 {
     public static GpsLocation Parse(string locationString, char separator)
-    { 
+    {
         ArgumentNullException.ThrowIfNull(locationString);
 
         var i = locationString.Split(separator);
@@ -18,8 +18,9 @@ internal static class GpsLocationParser
         return new GpsLocation(double.Parse(i[0], CultureInfo.InvariantCulture), double.Parse(i[1], CultureInfo.InvariantCulture));
     }
         
-    public static bool TryParse([NotNullWhen(true)] string? locationString, char separator, out GpsLocation gpsLocation)
+    public static bool TryParse(string locationString, char separator, [NotNullWhen(true)] out GpsLocation? gpsLocation)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (locationString is null)
         {
             gpsLocation = default;
