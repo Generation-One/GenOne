@@ -8,12 +8,14 @@
 
 @inject IOptions<GenOneMapOptions> Options
 @inject LayerFactory Factory
-@inject IIconFactory IconFactory
+@inject IMapIconFactory IconFactory
 @inject IServiceProvider Services
 
 <GenOne.DPBlazorMapLibrary.Components.Map.Map @ref="_map" MapOptions="@_mapOptions" CssClass="@Class" AfterRender="@AfterMapRender" />
 
 @code {
+	//todo refactor: notify property change, validate logic, logic to manage multiple markers
+
     [Parameter]
     public string? Class { get; set; }
 
@@ -34,6 +36,25 @@
     }
 
     private GpsData? _consumerLocation;
+    
+    private bool _followConsumerLocation;
+
+    [Parameter]
+    public bool FollowConsumerLocation
+    {
+	    get => _followConsumerLocation;
+	    set
+	    {
+		    var changed = _followConsumerLocation != value;
+		    _followConsumerLocation = value;
+            
+		    if(changed)
+			    _updates.Writer.TryWrite(FieldUpdated.FollowConsumerLocation);
+	    }
+    }
+
+    [Parameter]
+    public EventCallback<bool> FollowConsumerLocationChanged { get; set; }
 
     [Parameter]
     public GpsLocation? InitMarkerPosition { get; set; }
@@ -52,6 +73,23 @@
     [Parameter]
     public EventCallback<GpsLocation?> MarkerPositionChanged { get; set; }
 
+    
+    private bool _markerLocationCanBeChanged;
+
+    [Parameter]
+    public bool MarkerLocationCanBeChanged
+    {
+	    get => _markerLocationCanBeChanged;
+	    set
+	    {
+		    var changed = _markerLocationCanBeChanged != value;
+		    _markerLocationCanBeChanged = value;
+            
+		    if(changed)
+				_updates.Writer.TryWrite(FieldUpdated.MarkerLocationCanBeChanged);
+	    }
+    }
+
     private GpsLocation? _markerPosition;
 
     [Parameter]
@@ -67,6 +105,12 @@
             _updates.Writer.TryWrite(FieldUpdated.ViewPosition);
         }
     }
+
+    [Parameter]
+    public IMapIconFactory? OverrideIconFactory { get; set; }
+
+    [Parameter]
+    public EventCallback<Map> OnMapInitialized { get; set; }
 
     private GpsLocation? _viewPosition;
 
@@ -120,11 +164,20 @@
         StartReadUpdates();
 
         await _map.OnClick(OnClickInner);
+        await _map.MapEvented.OnDragStart(_ => DisableFollowConsumerLocation());
+
+        await OnMapInitialized.InvokeAsync(this);
+    }
+
+    private async Task DisableFollowConsumerLocation()
+    {
+	    FollowConsumerLocation = false;
+	    await FollowConsumerLocationChanged.InvokeAsync(FollowConsumerLocation);
     }
 
     private async Task OnClickInner(MouseEvent mouseEvent)
     {
-        if (Disabled) return;
+        if (Disabled || !MarkerLocationCanBeChanged) return;
 
         var position = mouseEvent.LatLng.GpsLocation();
         MarkerPosition = position;

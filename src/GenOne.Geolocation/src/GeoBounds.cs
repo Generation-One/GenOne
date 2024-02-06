@@ -11,16 +11,15 @@ public record GeoBounds
         LocationMax = new GpsLocation(latitudeMax, longitudeMax);
     }
 
-    public GeoBounds(GpsLocation locationMin, GpsLocation locationMax)
+    public static GeoBounds FromLocations(GpsLocation first, GpsLocation second)
     {
-        ArgumentNullException.ThrowIfNull(locationMin);
-        ArgumentNullException.ThrowIfNull(locationMax);
+	    var (latMin, latMax) = first.Latitude < second.Latitude ? (first.Latitude, second.Latitude) : (second.Latitude, first.Latitude);
+	    var (lonMin, lonMax) = first.Longitude < second.Longitude ? (first.Longitude, second.Longitude) : (second.Longitude, first.Longitude);
 
-        LocationMin = locationMin;
-        LocationMax = locationMax;
+        return new(latMin, lonMin, latMax, lonMax);
     }
 
-    public virtual bool Equals(GeoBounds? other)
+	public virtual bool Equals(GeoBounds? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
