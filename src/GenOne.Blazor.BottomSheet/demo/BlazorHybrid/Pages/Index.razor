@@ -7,6 +7,7 @@ Welcome to your new app.
 Times closed: @_closedCount;
 
 <button @onclick="OpenSheet">Open Sheet</button>
+<button @onclick="OpenSheet2">Open Sheet 2</button>
 
 <BottomSheetBlazorJs @ref="_sheet" Sensitivity="5" Stops="new[] { 95 }" OnClosed="() => _closedCount++">
     @if (isTrue)
@@ -19,10 +20,15 @@ Times closed: @_closedCount;
     }
 </BottomSheetBlazorJs>
 
+<BottomSheetBlazorJs @ref="_sheet2" Sensitivity="20" Stops="new[] { 5 }">
+    <div>Bottome sheet 2</div>
+</BottomSheetBlazorJs>
+
 
 @code
 {
     private BottomSheetBlazorJs? _sheet;
+    private BottomSheetBlazorJs? _sheet2;
     private bool isTrue = false;
 
     private int _closedCount;
@@ -33,6 +39,14 @@ Times closed: @_closedCount;
             throw new ArgumentNullException();
 
         await _sheet.Open();
+    }
+
+    public async Task OpenSheet2()
+    {
+        if (_sheet2 is null)
+            throw new ArgumentNullException();
+
+        await _sheet2.Open();
     }
 
     private void Test()

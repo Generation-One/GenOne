@@ -1,16 +1,21 @@
 ﻿class BottomSheet {
     /**
-     *
+     * @param {Element} sheet
      * @param {number[]} stops
      * @param {boolean} passive
      * @param {number} sensitivity
      * @param {function} onClosedHandler
      */
-    constructor(stops = [], passive, sensitivity, onClosedHandler) {
+    constructor(sheet, stops = [], passive, sensitivity, onClosedHandler) {
+        this._sheet = sheet;
         this._onClosedHandler = onClosedHandler;
         this._stops = stops;
         this._sensitivity = sensitivity;
         this._passive = passive;
+
+        if (!this._sheet) {
+            throw new Error("sheet not found");
+        }
 
         this.setupInitData();
         this.initializeSheet();
@@ -34,15 +39,14 @@
             window.innerHeight ||
             document.documentElement.clientHeight ||
             document.body.clientHeight;
-        this._contents = document.querySelector("[data-bs-contents]");
+        this._contents = this._sheet.querySelector("[data-bs-contents]");
     }
 
     initializeSheet() {
-        this._sheet = document.querySelector("[data-bs]");
-        this._overlay = document.querySelector("[data-bs-overlay]");
+        this._overlay = this._sheet.querySelector("[data-bs-overlay]");
 
-        if (!this._sheet || !this._overlay) {
-            throw new Error("[data-bs] or [data-bs-overlay] not found");
+        if (!this._overlay) {
+            throw new Error("[data-bs-overlay] not found");
         }
 
         this._overlay.addEventListener("click", this.close);
@@ -53,10 +57,10 @@
     }
 
     reinitialize() {
-        this._header = document.querySelector("[data-bs-header]");
-        this._content = document.querySelector("[data-bs-contents]");
-        this._footer = document.querySelector("[data-bs-footer]");
-        this._watch = document.querySelector("[data-bs-watch]");
+        this._header = this._sheet.querySelector("[data-bs-header]");
+        this._content = this._sheet.querySelector("[data-bs-contents]");
+        this._footer = this._sheet.querySelector("[data-bs-footer]");
+        this._watch = this._sheet.querySelector("[data-bs-watch]");
 
         if (this._header) {
             this._header.addEventListener("touchstart", this.onDragStartTouch);
@@ -259,7 +263,7 @@
         this._contents.addEventListener(
             "transitionend",
             () => {
-                this._onClosedHandler.invokeMethodAsync("Callback");
+                this._onClosedHandler?.invokeMethodAsync("Callback");
             },
             { once: true }
         );
@@ -309,6 +313,7 @@ const observeWatch = (element, callback) => {
 
 /**
  * Initialize bottom sheet
+ * @param {Element} sheet
  * @param {number[]} stops
  * @param {boolean} passive
  * @param {number} sensitivity
@@ -316,12 +321,13 @@ const observeWatch = (element, callback) => {
  * @returns {BottomSheet}
  */
 export const initializeBottomSheet = (
+    sheet,
     stops,
     passive,
     sensitivity,
     onClosedHandler
 ) => {
-    return new BottomSheet(stops, passive, sensitivity, onClosedHandler);
+    return new BottomSheet(sheet, stops, passive, sensitivity, onClosedHandler);
 };
 
 /**

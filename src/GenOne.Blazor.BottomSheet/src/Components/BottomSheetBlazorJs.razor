@@ -3,7 +3,7 @@
 @inject BottomSheetJsInterop Interop
 
 
-<div class="sheet" role="dialog" aria-hidden data-bs>
+<div @ref="_sheetRef" class="sheet" role="dialog" aria-hidden data-bs>
     <div class="overlay" data-bs-overlay></div>
 
     <div class="contents" data-bs-contents style="height: 0vh; width: 100%;">
@@ -14,6 +14,8 @@
 </div>
 
 @code {
+    private ElementReference _sheetRef;
+
     [Parameter]
     public EventCallback OnClosed { get; set; }
 
@@ -47,7 +49,7 @@
     {
         if (firstRender)
         {
-            _bottomSheetReference = await Interop.InitializeBottomSheet(Stops, Passive, Sensitivity, OnClosed.InvokeAsync);
+            _bottomSheetReference = await Interop.InitializeBottomSheet(_sheetRef, Stops, Passive, Sensitivity, OnClosed.InvokeAsync);
             await WhenInitialized.InvokeAsync();
         }
     }

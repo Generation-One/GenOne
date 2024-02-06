@@ -1,4 +1,5 @@
 ﻿using GenOne.JsInterop;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace GenOne.Blazor.BottomSheet.JsInterop
@@ -8,11 +9,11 @@ namespace GenOne.Blazor.BottomSheet.JsInterop
         private const string BottomSheetInteropName = "bottom-sheet.js";
         private const string BottomSheetInteropPath = $"{InteropConfig.BaseJsFolder}{BottomSheetInteropName}";
 
-        internal async ValueTask<IJSObjectReference> InitializeBottomSheet(int[] stops, bool passive, int sensitivity, Func<Task> onClosed)
+        internal async ValueTask<IJSObjectReference> InitializeBottomSheet(ElementReference sheetElement, int[] stops, bool passive, int sensitivity, Func<Task> onClosed)
         {
             var module = await EnsureModuleImported();
             var handler = JsHandlerFactory.AsyncCallbackHandler(onClosed);
-            return await module.InvokeAsync<IJSObjectReference>("initializeBottomSheet", stops, passive, sensitivity, handler);
+            return await module.InvokeAsync<IJSObjectReference>("initializeBottomSheet", sheetElement, stops, passive, sensitivity, handler);
         }
 
         internal async ValueTask OpenBottomSheet(IJSObjectReference bottomSheetReference)
