@@ -121,6 +121,12 @@
     private Marker? _marker;
     private Marker? _userMarker;
 
+    public Task InvalidateSize()
+    {
+	    MapInitializationException.ThrowIf(_map is null);
+	    return _map.InvalidateSize();
+    }
+
     protected override void OnInitialized()
     {
         //var position = ViewPosition ?? MarkerPosition ?? GpsLocation.Empty;
@@ -165,7 +171,7 @@
 
         await _map.OnClick(OnClickInner);
         await _map.MapEvented.OnDragStart(_ => DisableFollowConsumerLocation());
-
+        
         await OnMapInitialized.InvokeAsync(this);
     }
 
