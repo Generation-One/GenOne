@@ -177,8 +177,7 @@
 
     private async Task DisableFollowConsumerLocation()
     {
-	    FollowConsumerLocation = false;
-	    await FollowConsumerLocationChanged.InvokeAsync(FollowConsumerLocation);
+	    await FollowConsumerLocationChanged.InvokeAsync(false);
     }
 
     private async Task OnClickInner(MouseEvent mouseEvent)
