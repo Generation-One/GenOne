@@ -14,7 +14,12 @@ public static class EventedExtensions
         return evented.On("dragstart", callback);
     }
 
-    public static Task OnMoveEnd(this Evented evented, Func<MouseEvent, Task> callback)
+    public static Task OnZoomStart(this Evented evented, Func<MouseEvent, Task> callback)
+    {
+	    return evented.On("zoomstart", callback);
+    }
+
+	public static Task OnMoveEnd(this Evented evented, Func<MouseEvent, Task> callback)
     {
         return evented.On("moveend", callback);
     }

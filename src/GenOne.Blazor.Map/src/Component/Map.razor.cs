@@ -108,8 +108,15 @@ namespace GenOne.Blazor.Map.Component
             switch (MarkerPosition is not null, ConsumerLocation is not null)
             {
                 case (true, true):
-	                var bounds = GeoBounds.FromLocations(MarkerPosition!, ConsumerLocation!.Location);
-	                await _map.FlyToBounds(bounds.LatLngBounds());
+	                var bounds = GeoBounds.FromLocations(MarkerPosition!, ConsumerLocation!.Location).LatLngBounds();
+                    if (flyTo)
+                    {
+                        await _map.FlyToBounds(bounds);
+                    }
+                    else
+                    {
+                        await _map.FitBounds(bounds);
+                    }
                     break;
 
                 case (true, false):
