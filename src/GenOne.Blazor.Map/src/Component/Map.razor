@@ -15,7 +15,6 @@
 
 @code {
 	//todo refactor: notify property change, validate logic, logic to manage multiple markers
-
     [Parameter]
     public string? Class { get; set; }
 
@@ -57,9 +56,6 @@
     public EventCallback<bool> FollowConsumerLocationChanged { get; set; }
 
     [Parameter]
-    public GpsLocation? InitMarkerPosition { get; set; }
-
-    [Parameter]
     public GpsLocation? MarkerPosition
     {
         get => _markerPosition;
@@ -93,26 +89,10 @@
     private GpsLocation? _markerPosition;
 
     [Parameter]
-    public GpsLocation? InitViewPosition { get; set; }
-
-    [Parameter]
-    public GpsLocation? ViewPosition
-    {
-        get => _viewPosition;
-        set
-        {
-            _viewPosition = value;
-            _updates.Writer.TryWrite(FieldUpdated.ViewPosition);
-        }
-    }
-
-    [Parameter]
     public IMapIconFactory? OverrideIconFactory { get; set; }
 
     [Parameter]
     public EventCallback<Map> OnMapInitialized { get; set; }
-
-    private GpsLocation? _viewPosition;
 
     private DPBMap? _map;
 
@@ -162,12 +142,7 @@
 
         _ = await Factory.CreateTileLayerAndAddToMap(Options.Value.UrlTileTemplate, _map, tileLayerOptions);
 
-        MarkerPosition = InitMarkerPosition ?? MarkerPosition;
-
-        var viewPosition = InitViewPosition ?? InitMarkerPosition ?? ViewPosition ?? MarkerPosition ?? ConsumerLocation?.Location;
-        await UpdateViewLocation(viewPosition, false);
-
-        StartReadUpdates();
+        StartReadUpdates(); 
 
         await _map.OnClick(OnClickInner);
         await _map.MapEvented.OnDragStart(_ => DisableFollowConsumerLocation());

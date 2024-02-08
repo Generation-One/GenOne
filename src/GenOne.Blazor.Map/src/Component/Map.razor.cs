@@ -32,9 +32,6 @@ namespace GenOne.Blazor.Map.Component
                     {
                         switch (item)
                         {
-                            case FieldUpdated.ViewPosition:
-                                await UpdateViewLocation();
-                                break;
                             case FieldUpdated.ConsumerLocation:
                                 _userMarker = await Factory.AddOrUpdateMarker(_userMarker, _map, _consumerLocation?.Location.LatLng(), ResolvedIconFactory.PrepareUserMarkerOptions);
                                 if (FollowConsumerLocation)
@@ -93,12 +90,6 @@ namespace GenOne.Blazor.Map.Component
 
             Task.Run(Read, CancellationToken.None);
         }
-        
-        public Task UpdateViewLocation(GpsLocation? location, bool flyTo = true, int? zoom = null)
-        {
-            _viewPosition = location;
-            return UpdateViewLocation(flyTo, zoom);
-        }
 
         public async Task ViewAllMarkers(bool flyTo = true, int? zoom = null)
         {
@@ -110,7 +101,7 @@ namespace GenOne.Blazor.Map.Component
                 case (true, true):
 	                var bounds = GeoBounds.FromLocations(MarkerPosition!, ConsumerLocation!.Location).LatLngBounds();
                     if (flyTo)
-                    {
+                    { 
                         await _map.FlyToBounds(bounds);
                     }
                     else
@@ -129,9 +120,9 @@ namespace GenOne.Blazor.Map.Component
 			}
         }
 
-		private async Task UpdateViewLocation(bool flyTo = true, int? zoom = null)
+		private async Task UpdateViewLocation(GpsLocation? location, bool flyTo = true, int? zoom = null)
         {
-            var latLng = _viewPosition.LatLng();
+            var latLng = location.LatLng();
 
             if (latLng is null || _map is null)
                 return;
@@ -151,7 +142,6 @@ namespace GenOne.Blazor.Map.Component
         {
             ConsumerLocation,
             MarkerLocation,
-            ViewPosition,
             MarkerLocationCanBeChanged,
             FollowConsumerLocation
         }
