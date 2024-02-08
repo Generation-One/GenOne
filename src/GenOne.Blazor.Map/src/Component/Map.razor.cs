@@ -120,7 +120,7 @@ namespace GenOne.Blazor.Map.Component
 			}
         }
 
-		private async Task UpdateViewLocation(GpsLocation? location, bool flyTo = true, int? zoom = null)
+		public async Task UpdateViewLocation(GpsLocation? location, bool flyTo = true, int? zoom = null)
         {
             var latLng = location.LatLng();
 
