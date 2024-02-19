@@ -9,23 +9,18 @@ namespace GenOne.Blazor.BottomSheet.JsInterop
         private const string BottomSheetInteropName = "bottom-sheet.js";
         private const string BottomSheetInteropPath = $"{InteropConfig.BaseJsFolder}{BottomSheetInteropName}";
 
-        internal async ValueTask<IJSObjectReference> InitializeBottomSheet(ElementReference sheetElement, int[] stops, bool passive, int sensitivity, Func<Task> onClosed)
+        public async ValueTask<BottomSheetReference> InitializeBottomSheet(ElementReference sheetElement, bool passive, int sensitivity, Func<Task> onClosed)
         {
             var module = await EnsureModuleImported();
             var handler = JsHandlerFactory.AsyncCallbackHandler(onClosed);
-            return await module.InvokeAsync<IJSObjectReference>("initializeBottomSheet", sheetElement, stops, passive, sensitivity, handler);
+            var bsRef = await module.InvokeAsync<IJSObjectReference>("initializeBottomSheet", sheetElement, passive, sensitivity, handler);
+            return new BottomSheetReference(bsRef);
         }
 
-        internal async ValueTask OpenBottomSheet(IJSObjectReference bottomSheetReference)
+        public async ValueTask AddBottomOffset(ElementReference sheetElement, string offset)
         {
             var module = await EnsureModuleImported();
-            await module.InvokeVoidAsync("openBottomSheet", bottomSheetReference);
-        }
-
-        internal async ValueTask CloseBottomSheet(IJSObjectReference bottomSheetReference)
-        {
-            var module = await EnsureModuleImported();
-            await module.InvokeVoidAsync("closeBottomSheet", bottomSheetReference);
+            await module.InvokeVoidAsync("addBottomOffset", sheetElement, offset);
         }
     }
 }

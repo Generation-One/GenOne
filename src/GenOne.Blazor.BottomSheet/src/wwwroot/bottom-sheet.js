@@ -1,15 +1,13 @@
 ﻿class BottomSheet {
     /**
      * @param {Element} sheet
-     * @param {number[]} stops
      * @param {boolean} passive
      * @param {number} sensitivity
      * @param {function} onClosedHandler
      */
-    constructor(sheet, stops = [], passive, sensitivity, onClosedHandler) {
+    constructor(sheet, passive, sensitivity, onClosedHandler) {
         this._sheet = sheet;
         this._onClosedHandler = onClosedHandler;
-        this._stops = stops;
         this._sensitivity = sensitivity;
         this._passive = passive;
 
@@ -222,8 +220,14 @@
         }
     };
 
-    open() {
+    /**
+    * Open bottom sheet
+    * @param {number[]} stops
+    */
+    open(stops) {
         if (!this._hidden) return;
+
+        this._stops = stops;
 
         this._hidden = false;
         this._height = this._stops[0];
@@ -331,17 +335,10 @@ export const initializeBottomSheet = (
 };
 
 /**
- * Open bottom sheet
- * @param {BottomSheet} bottomSheetInstance
- */
-export const openBottomSheet = (bottomSheetInstance) => {
-    bottomSheetInstance.open();
-};
-
-/**
  * Close bottom sheet
- * @param {BottomSheet} bottomSheetInstance
+ * @param {Element} sheet
+ * @param {string} bottomOffset
  */
-export const closeBottomSheet = (bottomSheetInstance) => {
-    bottomSheetInstance.close();
+export const addBottomOffset = (sheetReference, bottomOffset) => {
+    sheetReference.querySelector('[data-bs-contents]').style.bottom = bottomOffset;
 };

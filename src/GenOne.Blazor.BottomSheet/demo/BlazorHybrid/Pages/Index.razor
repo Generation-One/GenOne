@@ -9,7 +9,7 @@ Times closed: @_closedCount;
 <button @onclick="OpenSheet">Open Sheet</button>
 <button @onclick="OpenSheet2">Open Sheet 2</button>
 
-<BottomSheetBlazorJs @ref="_sheet" Sensitivity="5" Stops="new[] { 95 }" OnClosed="() => _closedCount++">
+<BottomSheetBlazorJs @ref="_sheet" Sensitivity="5" DefaultStops="[95]" OnClosed="() => _closedCount++">
     @if (isTrue)
     {
         <Counter OnClick="Test" />
@@ -20,7 +20,8 @@ Times closed: @_closedCount;
     }
 </BottomSheetBlazorJs>
 
-<BottomSheetBlazorJs @ref="_sheet2" Sensitivity="20" Stops="new[] { 5 }">
+<BottomSheetBlazorJs @ref="_sheet2" Sensitivity="20" DefaultStops="[5]">
+    <button @onclick="Callback">Offset</button>
     <div>Bottome sheet 2</div>
 </BottomSheetBlazorJs>
 
@@ -30,7 +31,7 @@ Times closed: @_closedCount;
     private BottomSheetBlazorJs? _sheet;
     private BottomSheetBlazorJs? _sheet2;
     private bool isTrue = false;
-
+    private string _offset = "0";
     private int _closedCount;
 
     public async Task OpenSheet()
@@ -38,7 +39,7 @@ Times closed: @_closedCount;
         if (_sheet is null)
             throw new ArgumentNullException();
 
-        await _sheet.Open();
+        await _sheet.Open([50]);
     }
 
     public async Task OpenSheet2()
@@ -46,11 +47,17 @@ Times closed: @_closedCount;
         if (_sheet2 is null)
             throw new ArgumentNullException();
 
-        await _sheet2.Open();
+        await _sheet2.Open([50]);
     }
 
     private void Test()
     {
         isTrue = !isTrue;
+    }
+
+    private void Callback()
+    {
+        _offset = _offset == "0" ? "50px" : "0";
+        _sheet2?.AddBottomOffset(_offset);
     }
 }
