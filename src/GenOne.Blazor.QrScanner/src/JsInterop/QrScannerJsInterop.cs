@@ -12,11 +12,11 @@ namespace GenOne.Blazor.QrScanner
         public QrScannerJsInterop(IJSRuntime jsRuntime) : base(jsRuntime, QrScannerInteropPath)
         { }
 
-        public async ValueTask<IJSObjectReference> CreateQrScannerInstance(ElementReference videoElementReference, ElementReference overlayReference, Func<string, Task> onSuccessScanning)
+        public async ValueTask<IJSObjectReference> CreateQrScannerInstance(ElementReference videoElementReference, ElementReference? overlayReference, int? regionSize, Func<string, Task> onSuccessScanning)
         {
             var module = await EnsureModuleImported();
             var handler = JsHandlerFactory.AsyncCallbackHandler(onSuccessScanning);
-            return await module.InvokeAsync<IJSObjectReference>("createQrScanner", videoElementReference, overlayReference, handler);
+            return await module.InvokeAsync<IJSObjectReference>("createQrScanner", videoElementReference, overlayReference, regionSize, handler);
         }
 
         public async ValueTask StartScanning(IJSObjectReference qrScannerReference)

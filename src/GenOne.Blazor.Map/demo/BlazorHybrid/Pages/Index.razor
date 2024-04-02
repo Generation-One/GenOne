@@ -4,11 +4,15 @@
 @inject IUserLocationProvider userLocationProvider
 <h1>Hello, world!</h1>
 
-<Map Class="mapClass" Zoom="15" InitViewPosition="InitialLocation" MarkerPositionChanged="x => _currentPosition = x"></Map>
+<Map @ref="_map" Class="mapClass" Zoom="15" InitViewPosition="InitialLocation" MarkerPositionChanged="x => _currentPosition = x" @bind-FollowConsumerLocation="_followConsumerLocation" MarkerLocationCanBeChanged="_markerLocationCanBeChanged"></Map>
 
-<h3>Current marker position: Lat: @_currentPosition.Latitude Lon: @_currentPosition.Longitude</h3>
+<h3>Current marker position: Lat: @_currentPosition?.Latitude Lon: @_currentPosition?.Longitude</h3>
 
 <h3>Current user position: Lat: @CurrentUserPosition.Latitude Lon: @CurrentUserPosition.Longitude</h3>
+
+<button @onclick="Callback">go to markers</button>
+<button @onclick="() => _followConsumerLocation = !_followConsumerLocation">_followConsumerLocation : @_followConsumerLocation</button>
+<button @onclick="() => _markerLocationCanBeChanged = !_markerLocationCanBeChanged">_markerLocationCanBeChanged : _markerLocationCanBeChanged</button>
 
 <style>
     .mapClass {
@@ -18,6 +22,10 @@
 </style>
 
 @code {
+	public Map _map;
+
+	public bool _followConsumerLocation;
+    public bool _markerLocationCanBeChanged;
 
     protected override void OnInitialized()
     {
@@ -32,5 +40,12 @@
 
     private static readonly GpsLocation InitialLocation = new (-18.911030, 47.525131);
     
-    private GpsLocation _currentPosition = GpsLocation.Empty;
+    private GpsLocation? _currentPosition = GpsLocation.Empty;
+
+    private async Task Callback()
+    {
+	    await _map.ViewAllMarkers();
+
+    }
+
 }

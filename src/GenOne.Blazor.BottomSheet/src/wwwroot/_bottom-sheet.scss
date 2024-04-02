@@ -56,8 +56,10 @@ $max-width: 70rem;
     overflow-y: hidden;
     max-width: 70rem;
     max-height: 100vh;
-    height: 30vh;
+    height: 0vh;
+    width: 100%;
     box-sizing: border-box;
+    position: absolute;
 }
 
 .sheet .contents[full-screen] {

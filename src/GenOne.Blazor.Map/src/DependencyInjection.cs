@@ -1,16 +1,30 @@
 ﻿using GenOne.DPBlazorMapLibrary.DI;
+using GenOne.DPBlazorMapLibrary.Models.Events;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 
 namespace GenOne.Blazor.Map
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddGenOneMaps(this IServiceCollection services, Action<MapOptions>? configureOptions = null)
+	    public static IServiceCollection AddGenOneMaps<T>(this IServiceCollection services, Action<MapOptions>? configureOptions = null) where T : class, IMapIconFactory
+		{
+		    if (configureOptions is not null)
+			    services.PostConfigure(configureOptions);
+
+            services.AddTransient<IMapIconFactory, T>();
+
+		    return services.AddMapService();
+	    }
+
+		public static IServiceCollection AddGenOneMaps(this IServiceCollection services, Action<MapOptions>? configureOptions = null)
         {
             if (configureOptions is not null)
                 services.PostConfigure(configureOptions);
 
-            return services.AddMapService();
+            services.AddTransient<IMapIconFactory, MapIconFactory>();
+
+			return services.AddMapService();
         }
 
         public static IServiceCollection AddUserLocationProvider<T>(this IServiceCollection services) where T : class, IUserLocationProvider

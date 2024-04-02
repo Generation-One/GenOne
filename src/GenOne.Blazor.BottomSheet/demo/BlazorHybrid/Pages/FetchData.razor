@@ -23,6 +23,7 @@ else
             </tr>
         </thead>
         <tbody data-bs-content>
+            <div data-bs-watch />
             @foreach (var forecast in forecasts)
             {
                 <tr>
@@ -32,9 +33,11 @@ else
                     <td>@forecast.Summary</td>
                 </tr>
             }
-        <tr data-bs-footer>
-            <td>Footer</td>
-        </tr>
+            <tr data-bs-footer>
+                <td>
+                    <button @onclick="OnClick">click</button>
+                </td>
+            </tr>
         </tbody>
     </table>
 }
@@ -46,4 +49,7 @@ else
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
     }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
 }

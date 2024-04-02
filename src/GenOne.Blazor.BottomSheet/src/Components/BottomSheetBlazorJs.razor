@@ -2,11 +2,12 @@
 @using GenOne.Blazor.BottomSheet.JsInterop;
 @inject BottomSheetJsInterop Interop
 
+@implements IAsyncDisposable
 
-<div class="sheet" role="dialog" aria-hidden data-bs>
+<div @ref="_sheetRef" class="sheet" role="dialog" aria-hidden data-bs>
     <div class="overlay" data-bs-overlay></div>
 
-    <div class="contents" data-bs-contents style="height: 0vh; width: 100%;">
+    <div class="contents" data-bs-contents>
         <main class="bottom-sheet-body @Class">
             @ChildContent
         </main>
@@ -14,6 +15,10 @@
 </div>
 
 @code {
+    private ElementReference _sheetRef;
+
+    public ElementReference Ref => _sheetRef;
+
     [Parameter]
     public EventCallback OnClosed { get; set; }
 
@@ -21,13 +26,13 @@
     public bool Passive { get; set; }
 
     [Parameter]
-    public int[] Stops
+    public int[] DefaultStops
     {
-        get => _stops;
-        set => _stops = value.Order().ToArray();
+        get => _defaultStops;
+        set => _defaultStops = value.Order().ToArray();
     }
 
-    private int[] _stops = { 95 };
+    private int[] _defaultStops = [95];
 
     [Parameter]
     public int Sensitivity { get; set; } = 15;
@@ -41,13 +46,13 @@
     [Parameter]
     public EventCallback WhenInitialized { get; set; }
 
-    private IJSObjectReference? _bottomSheetReference;
+    private BottomSheetReference? _bottomSheetReference;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            _bottomSheetReference = await Interop.InitializeBottomSheet(Stops, Passive, Sensitivity, OnClosed.InvokeAsync);
+            _bottomSheetReference = await Interop.InitializeBottomSheet(_sheetRef, Passive, Sensitivity, OnClosed.InvokeAsync);
             await WhenInitialized.InvokeAsync();
         }
     }
@@ -57,17 +62,25 @@
         StateHasChanged();
     }
 
-    public async Task Open()
+    public ValueTask Open(int[]? stops = null)
     {
         BottomSheetNotInitializedException.ThrowIf(_bottomSheetReference is null);
-
-        await Interop.OpenBottomSheet(_bottomSheetReference);
+        return _bottomSheetReference.Open(stops ?? DefaultStops);
     }
 
-    public async Task Close()
+    public ValueTask Close()
     {
         BottomSheetNotInitializedException.ThrowIf(_bottomSheetReference is null);
+        return _bottomSheetReference.Close();
+    }
 
-        await Interop.CloseBottomSheet(_bottomSheetReference);
+    public ValueTask AddBottomOffset(string offset)
+    {
+        return Interop.AddBottomOffset(_sheetRef, offset);
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        return _bottomSheetReference?.DisposeAsync() ?? ValueTask.CompletedTask;
     }
 }
