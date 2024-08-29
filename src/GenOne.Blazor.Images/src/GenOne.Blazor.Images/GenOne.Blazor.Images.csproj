@@ -13,11 +13,4 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
     </ItemGroup>
 
-
-    <ItemGroup>
-      <Reference Include="Microsoft.iOS">
-        <HintPath>..\..\..\..\..\..\..\..\Program Files\dotnet\packs\Microsoft.iOS.Ref\17.0.8478\ref\net8.0\Microsoft.iOS.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
 </Project>
