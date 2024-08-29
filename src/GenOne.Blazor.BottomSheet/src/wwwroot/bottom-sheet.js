@@ -100,8 +100,9 @@
 
         const deltaY = this._currentDragPosition - position;
 
+        if (deltaY == 0) return;
+
         if (this._checkContentPosition) {
-            if (deltaY == 0) return;
 
             this._checkContentPosition = false;
 
