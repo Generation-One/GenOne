@@ -25,7 +25,10 @@
         this._hidden = true;
         this._height = 0;
         this._currentDragPosition = 0;
-        this._startDragPosition = 0;
+        this._startDragPosition = {
+            x: 0,
+            y: 0
+        };
         this._startDragHeight = 0;
         this._checkContentPosition = false;
         this._inDrag = false;
@@ -123,8 +126,19 @@
         this._currentDragPosition = position;
     }
 
+    disableDrag = (position) => {
+        const deltaX = position.x - this._startDragPosition.x;
+        return Math.abs(deltaX) > Math.abs(position.y - this._startDragPosition.y)
+    }
+
     onDragMouse = (event) => {
-        this.onDragInternal(event.pageY);
+        const position = {
+            y: event.pageY,
+            x: event.pageX
+        }
+        if (!this.disableDrag(position)) {
+            this.onDragInternal(event.pageY);
+        }
         if (this._inDrag) {
             event.preventDefault();
             event.stopPropagation();
@@ -132,7 +146,13 @@
     };
 
     onDragTouch = (event) => {
-        this.onDragInternal(event.touches[0].clientY);
+        const position = {
+            y: event.touches[0].clientY,
+            x: event.touches[0].clientX
+        }
+        if (!this.disableDrag(position)) {
+            this.onDragInternal(event.touches[0].clientY);
+        }
         if (this._inDrag) {
             event.preventDefault();
             event.stopPropagation();
@@ -143,7 +163,7 @@
         if (this._passive) return;
 
         this._checkContentPosition = checkContentPosition;
-        this._currentDragPosition = position;
+        this._currentDragPosition = position.y;
         this._startDragPosition = position;
         this._startDragHeight = this._height;
         this._dragFinished = false;
@@ -178,22 +198,40 @@
     };
 
     onDragStartTouch = (event) => {
-        this.onDragStart(event.touches[0].clientY, false);
+        const position = {
+            y: event.touches[0].clientY,
+            x: event.touches[0].clientX
+        }
+
+        this.onDragStart(posiiton, false);
     };
 
     onDragStartMouse = (event) => {
-        this.onDragStart(event.pageY, false);
+        const position = {
+            y: event.pageY,
+            x: event.pageX
+        }
+
+        this.onDragStart(position, false);
     };
 
     onDragStartTouchContent = (event) => {
         if (!this._touched && !this._inDrag) {
-            this.onDragStart(event.touches[0].clientY, true);
+            const position = {
+                y: event.touches[0].clientY,
+                x: event.touches[0].clientX
+            }
+            this.onDragStart(position, true);
         }
     };
 
     onDragStartMouseContent = (event) => {
         if (!this._touched && !this._inDrag) {
-            this.onDragStart(event.pageY, true);
+            const position = {
+                y: event.pageY,
+                x: event.pageX
+            }
+            this.onDragStart(position, true);
         }
     };
 
@@ -222,9 +260,9 @@
     };
 
     /**
-    * Open bottom sheet
-    * @param {number[]} stops
-    */
+     * Open bottom sheet
+     * @param {number[]} stops
+     */
     open(stops) {
         if (!this._hidden) return;
 
@@ -268,9 +306,10 @@
         this._contents.addEventListener(
             "transitionend",
             () => {
-                this._onClosedHandler?.invokeMethodAsync("Callback");
-            },
-            { once: true }
+                this._onClosedHandler ? .invokeMethodAsync("Callback");
+            }, {
+                once: true
+            }
         );
 
         requestAnimationFrame(() => {
