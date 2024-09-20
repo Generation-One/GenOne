@@ -358,7 +358,6 @@ const observeWatch = (element, callback) => {
 /**
  * Initialize bottom sheet
  * @param {Element} sheet
- * @param {number[]} stops
  * @param {boolean} passive
  * @param {number} sensitivity
  * @param {function} onClosedHandler
@@ -366,12 +365,11 @@ const observeWatch = (element, callback) => {
  */
 export const initializeBottomSheet = (
     sheet,
-    stops,
     passive,
     sensitivity,
     onClosedHandler
 ) => {
-    return new BottomSheet(sheet, stops, passive, sensitivity, onClosedHandler);
+    return new BottomSheet(sheet, passive, sensitivity, onClosedHandler);
 };
 
 /**
