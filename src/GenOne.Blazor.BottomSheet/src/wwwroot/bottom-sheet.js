@@ -306,7 +306,7 @@
         this._contents.addEventListener(
             "transitionend",
             () => {
-                this._onClosedHandler ? .invokeMethodAsync("Callback");
+                this._onClosedHandler?.invokeMethodAsync("Callback");
             }, {
                 once: true
             }
