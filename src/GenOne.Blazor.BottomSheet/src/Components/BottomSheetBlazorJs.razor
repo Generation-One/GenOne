@@ -4,7 +4,7 @@
 
 @implements IAsyncDisposable
 
-<div @ref="_sheetRef" class="sheet" role="dialog" aria-hidden data-bs>
+<div @ref="_sheetRef" id="@_sheetId" class="sheet" role="dialog" aria-hidden data-bs>
     <div class="overlay" data-bs-overlay></div>
 
     <div class="contents" data-bs-contents>
@@ -15,6 +15,8 @@
 </div>
 
 @code {
+    private readonly string _sheetId = Guid.NewGuid().ToString("N");
+
     private ElementReference _sheetRef;
 
     public ElementReference Ref => _sheetRef;
@@ -52,7 +54,7 @@
     {
         if (firstRender)
         {
-            _bottomSheetReference = await Interop.InitializeBottomSheet(_sheetRef, Passive, Sensitivity, OnClosed.InvokeAsync);
+            _bottomSheetReference = await Interop.InitializeBottomSheet(_sheetId, Passive, Sensitivity, OnClosed.InvokeAsync);
             await WhenInitialized.InvokeAsync();
         }
     }
@@ -76,7 +78,7 @@
 
     public ValueTask AddBottomOffset(string offset)
     {
-        return Interop.AddBottomOffset(_sheetRef, offset);
+        return Interop.AddBottomOffset(_sheetId, offset);
     }
 
     public ValueTask DisposeAsync()

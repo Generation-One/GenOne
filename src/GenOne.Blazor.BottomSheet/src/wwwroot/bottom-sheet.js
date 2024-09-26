@@ -1,12 +1,12 @@
 ﻿class BottomSheet {
     /**
-     * @param {Element} sheet
+     * @param {string} sheetId
      * @param {boolean} passive
      * @param {number} sensitivity
      * @param {function} onClosedHandler
      */
-    constructor(sheet, passive, sensitivity, onClosedHandler) {
-        this._sheet = sheet;
+    constructor(sheetId, passive, sensitivity, onClosedHandler) {
+        this._sheet = document.getElementById(sheetId);
         this._onClosedHandler = onClosedHandler;
         this._sensitivity = sensitivity;
         this._passive = passive;
@@ -357,26 +357,26 @@ const observeWatch = (element, callback) => {
 
 /**
  * Initialize bottom sheet
- * @param {Element} sheet
+ * @param {string} sheet
  * @param {boolean} passive
  * @param {number} sensitivity
  * @param {function} onClosedHandler
  * @returns {BottomSheet}
  */
 export const initializeBottomSheet = (
-    sheet,
+    sheetId,
     passive,
     sensitivity,
     onClosedHandler
 ) => {
-    return new BottomSheet(sheet, passive, sensitivity, onClosedHandler);
+    return new BottomSheet(sheetId, passive, sensitivity, onClosedHandler);
 };
 
 /**
  * Close bottom sheet
- * @param {Element} sheet
+ * @param {string} sheetId
  * @param {string} bottomOffset
  */
-export const addBottomOffset = (sheetReference, bottomOffset) => {
-    sheetReference.querySelector('[data-bs-contents]').style.bottom = bottomOffset;
+export const addBottomOffset = (sheetId, bottomOffset) => {
+    document.getElementById(sheetId).querySelector('[data-bs-contents]').style.bottom = bottomOffset;
 };
