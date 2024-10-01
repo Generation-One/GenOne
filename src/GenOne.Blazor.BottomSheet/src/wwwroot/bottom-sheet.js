@@ -203,7 +203,7 @@
             x: event.touches[0].clientX
         }
 
-        this.onDragStart(posiiton, false);
+        this.onDragStart(position, false);
     };
 
     onDragStartMouse = (event) => {
